@@ -1,0 +1,530 @@
+/**
+ * WP Chat AI - Admin Styles
+ * 
+ * Styling for the WordPress admin interface
+ */
+
+/* Admin page layout */
+.wpcai-admin-page {
+    max-width: 1200px;
+}
+
+.wpcai-admin-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.wpcai-admin-header .dashicons {
+    font-size: 32px;
+    color: #007cba;
+}
+
+.wpcai-admin-header h1 {
+    margin: 0;
+    color: #23282d;
+}
+
+/* Settings form styling */
+.wpcai-settings-section {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.wpcai-settings-section h2 {
+    margin: 0;
+    padding: 15px 20px;
+    background: #f9f9f9;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.wpcai-settings-section .form-table {
+    margin: 0;
+}
+
+.wpcai-settings-section .form-table th {
+    padding: 20px;
+    width: 200px;
+    font-weight: 600;
+}
+
+.wpcai-settings-section .form-table td {
+    padding: 20px;
+}
+
+/* Status indicators */
+.wpcai-status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+
+.wpcai-status-pending {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.wpcai-status-training {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+    animation: statusPulse 2s infinite;
+}
+
+.wpcai-status-completed {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.wpcai-status-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.wpcai-status-no_data {
+    background: #e2e3e5;
+    color: #383d41;
+    border: 1px solid #d6d8db;
+}
+
+@keyframes statusPulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* Progress bar */
+.wpcai-progress-container {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.wpcai-progress-bar {
+    flex: 1;
+    height: 10px;
+    background: #e9ecef;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+}
+
+.wpcai-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #007cba 0%, #005a87 100%);
+    transition: width 0.5s ease;
+    border-radius: 4px;
+    position: relative;
+}
+
+.wpcai-progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.wpcai-progress-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6c757d;
+    min-width: 45px;
+    text-align: right;
+}
+
+/* Training section */
+.wpcai-training-status {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.wpcai-training-status h2 {
+    margin: 0;
+    padding: 15px 20px;
+    background: #f9f9f9;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.wpcai-training-actions {
+    padding: 20px;
+    background: #f9f9f9;
+    border-top: 1px solid #eee;
+}
+
+.wpcai-training-actions .button {
+    margin-right: 10px;
+}
+
+/* Info section */
+.wpcai-training-info,
+.wpcai-info-section {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-left: 4px solid #007cba;
+    border-radius: 4px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.wpcai-training-info h2,
+.wpcai-info-section h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #007cba;
+    font-size: 16px;
+}
+
+.wpcai-training-info p,
+.wpcai-info-section p {
+    margin-bottom: 12px;
+    line-height: 1.6;
+    color: #495057;
+}
+
+.wpcai-training-info p:last-child,
+.wpcai-info-section p:last-child {
+    margin-bottom: 0;
+}
+
+/* Messages */
+#wpcai-training-messages {
+    margin-top: 15px;
+}
+
+#wpcai-training-messages .notice {
+    margin: 10px 0;
+    position: relative;
+}
+
+.wpcai-autosave-indicator {
+    display: inline-block;
+    margin-left: 15px;
+    padding: 4px 10px;
+    background: #28a745;
+    color: white;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-5px); }
+    20% { opacity: 1; transform: translateY(0); }
+    80% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-5px); }
+}
+
+/* Form enhancements */
+.wpcai-form-group {
+    margin-bottom: 20px;
+}
+
+.wpcai-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #23282d;
+}
+
+.wpcai-form-group .description {
+    margin-top: 5px;
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.wpcai-confidence-display {
+    margin-left: 10px;
+    font-size: 12px;
+    color: #6c757d;
+    font-style: italic;
+    font-weight: normal;
+}
+
+/* Chat logs table */
+.wpcai-logs-table {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.wpcai-logs-table .wp-list-table {
+    border: none;
+    box-shadow: none;
+}
+
+.wpcai-logs-table th {
+    background: #f9f9f9;
+    border-bottom: 1px solid #eee;
+    font-weight: 600;
+}
+
+.wpcai-confidence-score {
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.wpcai-confidence-score.high {
+    background: #d4edda;
+    color: #155724;
+}
+
+.wpcai-confidence-score.medium {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.wpcai-confidence-score.low {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Statistics cards */
+.wpcai-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.wpcai-stat-card {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wpcai-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.wpcai-stat-card .dashicons {
+    font-size: 32px;
+    color: #007cba;
+    margin-bottom: 10px;
+}
+
+.wpcai-stat-card h3 {
+    margin: 0 0 5px 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #23282d;
+}
+
+.wpcai-stat-card p {
+    margin: 0;
+    color: #666;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Buttons */
+.button.wpcai-button-primary {
+    background: linear-gradient(135deg, #007cba 0%, #005a87 100%);
+    border-color: #005a87;
+    color: #fff;
+    text-shadow: none;
+    box-shadow: 0 2px 4px rgba(0, 124, 186, 0.3);
+    transition: all 0.2s ease;
+}
+
+.button.wpcai-button-primary:hover {
+    background: linear-gradient(135deg, #005a87 0%, #004085 100%);
+    border-color: #004085;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 124, 186, 0.4);
+}
+
+.button.wpcai-button-primary:active {
+    transform: translateY(0);
+}
+
+.button.wpcai-button-secondary {
+    background: #f8f9fa;
+    border-color: #dee2e6;
+    color: #495057;
+    transition: all 0.2s ease;
+}
+
+.button.wpcai-button-secondary:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+    transform: translateY(-1px);
+}
+
+/* Loading states */
+.wpcai-loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.wpcai-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #007cba;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Tooltips */
+.wpcai-tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.wpcai-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.wpcai-tooltip:hover::after {
+    opacity: 1;
+}
+
+/* Responsive design */
+@media (max-width: 782px) {
+    .wpcai-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .wpcai-admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+    
+    .wpcai-training-actions .button {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+    
+    .wpcai-settings-section .form-table th,
+    .wpcai-settings-section .form-table td {
+        display: block;
+        width: 100%;
+        padding: 10px 20px;
+    }
+    
+    .wpcai-settings-section .form-table th {
+        border-bottom: none;
+        padding-bottom: 5px;
+    }
+    
+    .wpcai-settings-section .form-table td {
+        padding-top: 5px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .wpcai-settings-section,
+    .wpcai-training-status,
+    .wpcai-stat-card {
+        background: #1e1e1e;
+        border-color: #3c3c3c;
+        color: #e0e0e0;
+    }
+    
+    .wpcai-settings-section h2,
+    .wpcai-training-status h2 {
+        background: #2d2d2d;
+        border-color: #3c3c3c;
+        color: #e0e0e0;
+    }
+    
+    .wpcai-training-info,
+    .wpcai-info-section {
+        background: #2d2d2d;
+        border-color: #3c3c3c;
+        color: #e0e0e0;
+    }
+    
+    .wpcai-training-actions {
+        background: #2d2d2d;
+        border-color: #3c3c3c;
+    }
+}
+
+/* Print styles */
+@media print {
+    .wpcai-training-actions,
+    .button,
+    .notice {
+        display: none !important;
+    }
+    
+    .wpcai-settings-section,
+    .wpcai-training-status {
+        border: 1px solid #000;
+        box-shadow: none;
+    }
+}
+

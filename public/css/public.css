@@ -1,0 +1,674 @@
+/**
+ * WP Chat AI - Public Styles
+ * 
+ * Modern, responsive chat interface styling
+ */
+
+/* Reset and base styles */
+.wpcai-chat-widget * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main widget container */
+.wpcai-chat-widget {
+    position: fixed;
+    z-index: 999999;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #333;
+}
+
+/* Position variants */
+.wpcai-position-bottom-right {
+    bottom: 20px;
+    right: 20px;
+}
+
+.wpcai-position-bottom-left {
+    bottom: 20px;
+    left: 20px;
+}
+
+.wpcai-position-top-right {
+    top: 20px;
+    right: 20px;
+}
+
+.wpcai-position-top-left {
+    top: 20px;
+    left: 20px;
+}
+
+/* Chat toggle button */
+.wpcai-chat-toggle {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #007cba 0%, #005a87 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 124, 186, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: white;
+    border: none;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.wpcai-chat-toggle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.wpcai-chat-toggle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(0, 124, 186, 0.4);
+}
+
+.wpcai-chat-toggle:hover::before {
+    opacity: 1;
+}
+
+.wpcai-chat-toggle:active {
+    transform: scale(0.95);
+}
+
+.wpcai-chat-toggle.wpcai-chat-open {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    box-shadow: 0 4px 20px rgba(220, 53, 69, 0.3);
+}
+
+.wpcai-chat-toggle.wpcai-chat-minimized {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+    box-shadow: 0 4px 20px rgba(255, 193, 7, 0.3);
+}
+
+/* Chat window */
+.wpcai-chat-window {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    width: 380px;
+    height: 520px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Position adjustments for chat window */
+.wpcai-position-bottom-left .wpcai-chat-window,
+.wpcai-position-top-left .wpcai-chat-window {
+    right: auto;
+    left: 0;
+}
+
+.wpcai-position-top-right .wpcai-chat-window,
+.wpcai-position-top-left .wpcai-chat-window {
+    bottom: auto;
+    top: 70px;
+}
+
+/* Chat header */
+.wpcai-chat-header {
+    background: linear-gradient(135deg, #007cba 0%, #005a87 100%);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.wpcai-chat-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.wpcai-chat-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+}
+
+.wpcai-chat-controls {
+    display: flex;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+.wpcai-chat-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+}
+
+.wpcai-chat-control:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.wpcai-chat-control:active {
+    transform: scale(0.95);
+}
+
+/* Chat messages container */
+.wpcai-chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 100%);
+    position: relative;
+}
+
+.wpcai-chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.wpcai-chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.wpcai-chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(0, 124, 186, 0.3);
+    border-radius: 3px;
+}
+
+.wpcai-chat-messages::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 124, 186, 0.5);
+}
+
+/* Individual messages */
+.wpcai-message {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    animation: messageSlideIn 0.3s ease-out;
+}
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.wpcai-message-user {
+    align-items: flex-end;
+}
+
+.wpcai-message-bot {
+    align-items: flex-start;
+}
+
+.wpcai-message-error {
+    align-items: center;
+}
+
+.wpcai-message-content {
+    max-width: 85%;
+    padding: 14px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+    word-wrap: break-word;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* User message styling */
+.wpcai-message-user .wpcai-message-content {
+    background: linear-gradient(135deg, #007cba 0%, #0056b3 100%);
+    color: white;
+    border-bottom-right-radius: 6px;
+}
+
+.wpcai-message-user .wpcai-message-content::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: -8px;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-left-color: #0056b3;
+    border-bottom: none;
+}
+
+/* Bot message styling */
+.wpcai-message-bot .wpcai-message-content {
+    background: #ffffff;
+    color: #333;
+    border: 1px solid #e9ecef;
+    border-bottom-left-radius: 6px;
+}
+
+.wpcai-message-bot .wpcai-message-content::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -8px;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-right-color: #ffffff;
+    border-bottom: none;
+}
+
+.wpcai-message-bot .wpcai-message-content::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -9px;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-right-color: #e9ecef;
+    border-bottom: none;
+}
+
+/* Error message styling */
+.wpcai-message-error .wpcai-message-content {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    border-radius: 20px;
+    text-align: center;
+}
+
+/* Message timestamps */
+.wpcai-message-timestamp {
+    font-size: 11px;
+    color: #6c757d;
+    margin-top: 4px;
+    padding: 0 4px;
+}
+
+.wpcai-message-user .wpcai-message-timestamp {
+    text-align: right;
+}
+
+.wpcai-message-bot .wpcai-message-timestamp {
+    text-align: left;
+}
+
+/* Confidence indicator */
+.wpcai-confidence {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.wpcai-confidence-high {
+    background: #28a745;
+}
+
+.wpcai-confidence-medium {
+    background: #ffc107;
+}
+
+.wpcai-confidence-low {
+    background: #dc3545;
+}
+
+/* Typing indicator */
+.wpcai-typing-indicator .wpcai-message-content {
+    padding: 16px 20px;
+}
+
+.wpcai-typing-dots {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.wpcai-typing-dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #6c757d;
+    animation: typingDot 1.4s infinite ease-in-out;
+}
+
+.wpcai-typing-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.wpcai-typing-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes typingDot {
+    0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Chat input container */
+.wpcai-chat-input-container {
+    padding: 20px;
+    background: #ffffff;
+    border-top: 1px solid #e9ecef;
+    position: relative;
+}
+
+.wpcai-chat-input-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #e9ecef, transparent);
+}
+
+.wpcai-input-group {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.wpcai-chat-input {
+    flex: 1;
+    padding: 14px 18px;
+    border: 2px solid #e9ecef;
+    border-radius: 25px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    resize: none;
+    min-height: 20px;
+    max-height: 100px;
+    font-family: inherit;
+}
+
+.wpcai-chat-input:focus {
+    border-color: #007cba;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1);
+}
+
+.wpcai-chat-input::placeholder {
+    color: #6c757d;
+}
+
+.wpcai-chat-submit {
+    background: linear-gradient(135deg, #007cba 0%, #0056b3 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 14px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 80px;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 124, 186, 0.3);
+}
+
+.wpcai-chat-submit:hover {
+    background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 124, 186, 0.4);
+}
+
+.wpcai-chat-submit:active {
+    transform: translateY(0);
+}
+
+.wpcai-chat-submit:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.wpcai-submit-loading svg {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Links in messages */
+.wpcai-message-content a {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.wpcai-message-user .wpcai-message-content a {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.wpcai-message-bot .wpcai-message-content a {
+    color: #007cba;
+}
+
+.wpcai-message-content a:hover {
+    text-decoration: none;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+    .wpcai-chat-widget {
+        bottom: 10px !important;
+        right: 10px !important;
+        left: 10px !important;
+        top: auto !important;
+    }
+
+    .wpcai-chat-window {
+        width: 100%;
+        height: calc(100vh - 100px);
+        max-height: 600px;
+        bottom: 70px;
+        right: 0;
+        left: 0;
+        border-radius: 16px 16px 0 0;
+    }
+
+    .wpcai-chat-toggle {
+        width: 56px;
+        height: 56px;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .wpcai-chat-header {
+        padding: 16px 20px;
+    }
+
+    .wpcai-chat-title {
+        font-size: 16px;
+    }
+
+    .wpcai-chat-messages {
+        padding: 16px;
+    }
+
+    .wpcai-message-content {
+        max-width: 90%;
+        font-size: 14px;
+    }
+
+    .wpcai-chat-input-container {
+        padding: 16px;
+    }
+
+    .wpcai-input-group {
+        gap: 10px;
+    }
+
+    .wpcai-chat-input {
+        padding: 12px 16px;
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+
+    .wpcai-chat-submit {
+        padding: 12px 16px;
+        min-width: 70px;
+    }
+}
+
+@media (max-width: 320px) {
+    .wpcai-chat-window {
+        height: calc(100vh - 80px);
+    }
+
+    .wpcai-chat-messages {
+        padding: 12px;
+    }
+
+    .wpcai-chat-input-container {
+        padding: 12px;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .wpcai-chat-toggle {
+        border: 2px solid #000;
+    }
+
+    .wpcai-message-content {
+        border: 2px solid #000;
+    }
+
+    .wpcai-chat-input {
+        border: 2px solid #000;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .wpcai-chat-toggle,
+    .wpcai-chat-control,
+    .wpcai-chat-submit,
+    .wpcai-message {
+        transition: none;
+        animation: none;
+    }
+
+    .wpcai-typing-dots span {
+        animation: none;
+    }
+
+    .wpcai-submit-loading svg {
+        animation: none;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .wpcai-chat-window {
+        background: #2d3748;
+        border-color: #4a5568;
+    }
+
+    .wpcai-chat-messages {
+        background: linear-gradient(to bottom, #2d3748 0%, #1a202c 100%);
+    }
+
+    .wpcai-message-bot .wpcai-message-content {
+        background: #4a5568;
+        color: #e2e8f0;
+        border-color: #718096;
+    }
+
+    .wpcai-message-bot .wpcai-message-content::before {
+        border-right-color: #4a5568;
+    }
+
+    .wpcai-message-bot .wpcai-message-content::after {
+        border-right-color: #718096;
+    }
+
+    .wpcai-chat-input-container {
+        background: #2d3748;
+        border-color: #4a5568;
+    }
+
+    .wpcai-chat-input {
+        background: #4a5568;
+        border-color: #718096;
+        color: #e2e8f0;
+    }
+
+    .wpcai-chat-input::placeholder {
+        color: #a0aec0;
+    }
+
+    .wpcai-message-timestamp {
+        color: #a0aec0;
+    }
+}
+
+/* Print styles */
+@media print {
+    .wpcai-chat-widget {
+        display: none !important;
+    }
+}
+
