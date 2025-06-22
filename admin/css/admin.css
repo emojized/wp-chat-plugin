@@ -488,9 +488,9 @@
     .wpcai-settings-section,
     .wpcai-training-status,
     .wpcai-stat-card {
-        background: #1e1e1e;
         border-color: #3c3c3c;
         color: #e0e0e0;
+        padding: 10px;
     }
     
     .wpcai-settings-section h2,
