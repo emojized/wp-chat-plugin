@@ -88,7 +88,7 @@ class WPCAI_Ajax {
             $naive_bayes = new WPCAI_Naive_Bayes();
             $result = $naive_bayes->predict( $question );
 
-            if ( $result && $result['confidence'] > 0.1 ) {
+            if ( $result  ) {
                 // Log the interaction
                 WPCAI_Database::log_chat( array(
                     'user_question' => $question,

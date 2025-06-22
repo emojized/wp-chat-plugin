@@ -4,7 +4,6 @@
  *
  * @package WP_Chat_AI
  */
-
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -14,7 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * WPCAI_Naive_Bayes class
  */
 class WPCAI_Naive_Bayes {
-
     /**
      * Vocabulary size for Laplace smoothing
      *
@@ -69,7 +67,6 @@ class WPCAI_Naive_Bayes {
 
             // Get all training data
             $training_data = WPCAI_Database::get_all_training_data();
-
             if ( empty( $training_data ) ) {
                 return false;
             }
@@ -83,7 +80,6 @@ class WPCAI_Naive_Bayes {
             foreach ( $training_data as $data ) {
                 $post_id = $data->post_id;
                 $tokens = json_decode( $data->tokens, true );
-
                 if ( empty( $tokens ) ) {
                     continue;
                 }
@@ -104,15 +100,14 @@ class WPCAI_Naive_Bayes {
 
             $this->vocabulary_size = count( $vocabulary );
 
-            // Calculate prior probabilities (uniform for now, could be weighted by post importance)
+            // Calculate prior probabilities
             foreach ( $training_data as $data ) {
-                $this->prior_probabilities[ $data->post_id ] = 1.0 / $this->total_documents;
+                $this->prior_probabilities[ $data->post_id ] = 1.0 / max(1, $this->total_documents);
             }
 
             // Second pass: calculate word probabilities for each post
             foreach ( $training_data as $data ) {
                 $post_id = $data->post_id;
-                
                 if ( ! isset( $post_word_counts[ $post_id ] ) ) {
                     continue;
                 }
@@ -122,7 +117,7 @@ class WPCAI_Naive_Bayes {
 
                 foreach ( $vocabulary as $word => $global_frequency ) {
                     $word_count = isset( $word_counts[ $word ] ) ? $word_counts[ $word ] : 0;
-                    
+
                     // Apply Laplace smoothing
                     $probability = ( $word_count + 1 ) / ( $total_words + $this->vocabulary_size );
 
@@ -141,7 +136,6 @@ class WPCAI_Naive_Bayes {
             $this->document_frequencies = $post_total_words;
 
             return true;
-
         } catch ( Exception $e ) {
             error_log( 'Naive Bayes Training Error: ' . $e->getMessage() );
             return false;
@@ -163,24 +157,31 @@ class WPCAI_Naive_Bayes {
         $query_tokens = WPCAI_Tokenizer::preprocess_query( $query );
 
         if ( empty( $query_tokens ) ) {
+            error_log("No tokens extracted from query.");
             return false;
         }
 
-        // Get all training data to calculate scores
-        $training_data = WPCAI_Database::get_all_training_data();
+        error_log("Query Tokens: " . print_r($query_tokens, true));
 
+        // Get all training data
+        $training_data = WPCAI_Database::get_all_training_data();
         if ( empty( $training_data ) ) {
+            error_log("No training data found.");
             return false;
         }
 
         $post_scores = array();
 
-        // Calculate Naive Bayes score for each post
         foreach ( $training_data as $data ) {
             $post_id = $data->post_id;
             $score = $this->calculate_post_score( $post_id, $query_tokens );
-            
-            if ( $score > 0 ) {
+
+            if ( is_infinite( $score ) || is_nan( $score ) ) {
+                error_log("Invalid score for post ID $post_id: $score");
+                continue;
+            }
+
+            if ( $score > -INF && $score < INF ) {
                 $post_scores[ $post_id ] = array(
                     'score' => $score,
                     'post_data' => $data
@@ -188,7 +189,10 @@ class WPCAI_Naive_Bayes {
             }
         }
 
+        error_log("Post Scores: " . print_r($post_scores, true));
+
         if ( empty( $post_scores ) ) {
+            error_log("No post scores were calculated.");
             return false;
         }
 
@@ -228,28 +232,26 @@ class WPCAI_Naive_Bayes {
      * @return float Score
      */
     private function calculate_post_score( $post_id, $query_tokens ) {
-        // Start with prior probability (log space to avoid underflow)
-        $log_score = log( $this->prior_probabilities[ $post_id ] ?? ( 1.0 / $this->total_documents ) );
+        $log_score = log( $this->prior_probabilities[ $post_id ] ?? ( 1.0 / max(1, $this->total_documents) ) );
 
         foreach ( $query_tokens as $token ) {
-            // Get word probability for this post
-            $word_data = WPCAI_Database::get_model_data_for_word( $token );
-            
             $word_probability = 0.0;
-            
-            foreach ( $word_data as $data ) {
-                if ( $data->post_id == $post_id ) {
-                    $word_probability = $data->probability;
-                    break;
+            $word_data = WPCAI_Database::get_model_data_for_word( $token );
+
+            if ( ! empty( $word_data ) ) {
+                foreach ( $word_data as $data ) {
+                    if ( $data->post_id == $post_id ) {
+                        $word_probability = $data->probability;
+                        break;
+                    }
                 }
             }
 
-            // If word not found in this post, use smoothed probability
-            if ( $word_probability == 0.0 ) {
+            // Fallback smoothing
+            if ( $word_probability <= 0 ) {
                 $word_probability = 1.0 / ( $this->vocabulary_size + 1 );
             }
 
-            // Add log probability
             $log_score += log( $word_probability );
         }
 
@@ -257,11 +259,24 @@ class WPCAI_Naive_Bayes {
     }
 
     /**
+     * Load model data from database
+     */
+    private function load_model_data() {
+        $vocabulary = WPCAI_Database::get_vocabulary();
+        $this->vocabulary_size = count( $vocabulary );
+
+        $training_data = WPCAI_Database::get_all_training_data();
+        $this->total_documents = count( $training_data );
+
+        $this->prior_probabilities = [];
+
+        foreach ( $training_data as $data ) {
+            $this->prior_probabilities[ $data->post_id ] = 1.0 / max(1, $this->total_documents);
+        }
+    }
+
+    /**
      * Calculate confidence score
-     *
-     * @param float $best_score Best score
-     * @param array $all_scores All scores
-     * @return float Confidence between 0 and 1
      */
     private function calculate_confidence( $best_score, $all_scores ) {
         if ( count( $all_scores ) < 2 ) {
@@ -269,94 +284,58 @@ class WPCAI_Naive_Bayes {
         }
 
         $scores = array_column( $all_scores, 'score' );
-        sort( $scores, SORT_NUMERIC );
-        $scores = array_reverse( $scores );
+        rsort( $scores );
 
         $best = $scores[0];
         $second_best = $scores[1];
 
-        // Calculate relative confidence
         if ( $second_best == 0 ) {
             return 1.0;
         }
 
         $confidence = ( $best - $second_best ) / abs( $best );
-        
-        // Normalize to 0-1 range
         return max( 0.0, min( 1.0, $confidence ) );
     }
 
     /**
      * Generate response text from post content
-     *
-     * @param object $post_data Post data
-     * @param array $query_tokens Query tokens
-     * @return string Response text
      */
     private function generate_response( $post_data, $query_tokens ) {
-        $content = $post_data->post_content;
-        $title = $post_data->post_title;
-
-        // Remove HTML tags and clean content
-        $content = wp_strip_all_tags( $content );
-        $content = html_entity_decode( $content );
-
-        // Try to find the most relevant sentence
+        $content = wp_strip_all_tags( html_entity_decode( $post_data->post_content ) );
         $sentences = $this->extract_sentences( $content );
         $best_sentence = $this->find_best_sentence( $sentences, $query_tokens );
 
-        if ( $best_sentence ) {
-            $response = $best_sentence;
-        } else {
-            // Fallback to first few sentences or excerpt
-            $response = wp_trim_words( $content, 50 );
-        }
+        $response = $best_sentence ?: wp_trim_words( $content, 50 );
 
-        // Ensure response is not too long
         $max_length = get_option( 'wpcai_max_response_length', 500 );
         if ( strlen( $response ) > $max_length ) {
-            $response = wp_trim_words( $response, $max_length / 6 ); // Rough word count estimation
+            $response = wp_trim_words( $response, $max_length / 6 );
         }
 
-        // Add source reference
-        $response .= "\n\n" . sprintf( 
-            __( 'Source: %s', 'wp-chat-ai' ), 
-            $title 
-        );
+        $response .= "\n" . sprintf( __( 'Source: %s', 'wp-chat-ai' ), $post_data->post_title );
 
         return trim( $response );
     }
 
     /**
      * Extract sentences from text
-     *
-     * @param string $text Text content
-     * @return array Array of sentences
      */
     private function extract_sentences( $text ) {
-        // Simple sentence splitting (could be improved with more sophisticated NLP)
         $sentences = preg_split( '/[.!?]+/', $text );
-        
-        $cleaned_sentences = array();
-        
+        $cleaned = array();
+
         foreach ( $sentences as $sentence ) {
             $sentence = trim( $sentence );
-            
-            // Filter out very short sentences
             if ( strlen( $sentence ) > 20 ) {
-                $cleaned_sentences[] = $sentence;
+                $cleaned[] = $sentence;
             }
         }
 
-        return $cleaned_sentences;
+        return $cleaned;
     }
 
     /**
-     * Find the best sentence that matches query tokens
-     *
-     * @param array $sentences Array of sentences
-     * @param array $query_tokens Query tokens
-     * @return string|false Best sentence or false if none found
+     * Find best sentence based on Jaccard similarity
      */
     private function find_best_sentence( $sentences, $query_tokens ) {
         $best_sentence = false;
@@ -364,42 +343,19 @@ class WPCAI_Naive_Bayes {
 
         foreach ( $sentences as $sentence ) {
             $sentence_tokens = WPCAI_Tokenizer::tokenize( $sentence );
-            
-            // Calculate similarity score
             $score = WPCAI_Tokenizer::calculate_jaccard_similarity( $query_tokens, $sentence_tokens );
-            
+
             if ( $score > $best_score ) {
                 $best_score = $score;
                 $best_sentence = $sentence;
             }
         }
 
-        // Only return if score is above threshold
         return $best_score > 0.1 ? $best_sentence : false;
     }
 
     /**
-     * Load model data from database
-     */
-    private function load_model_data() {
-        // Get vocabulary size
-        $vocabulary = WPCAI_Database::get_vocabulary();
-        $this->vocabulary_size = count( $vocabulary );
-
-        // Get total documents
-        $training_data = WPCAI_Database::get_all_training_data();
-        $this->total_documents = count( $training_data );
-
-        // Set uniform prior probabilities
-        foreach ( $training_data as $data ) {
-            $this->prior_probabilities[ $data->post_id ] = 1.0 / $this->total_documents;
-        }
-    }
-
-    /**
      * Get model statistics
-     *
-     * @return array Model statistics
      */
     public function get_model_stats() {
         return array(
@@ -411,10 +367,7 @@ class WPCAI_Naive_Bayes {
     }
 
     /**
-     * Evaluate model performance (for testing)
-     *
-     * @param array $test_queries Array of test queries with expected post IDs
-     * @return array Evaluation results
+     * Evaluate model performance
      */
     public function evaluate( $test_queries ) {
         $correct_predictions = 0;
@@ -424,7 +377,6 @@ class WPCAI_Naive_Bayes {
         foreach ( $test_queries as $query_data ) {
             $query = $query_data['query'];
             $expected_post_id = $query_data['expected_post_id'];
-
             $prediction = $this->predict( $query );
 
             if ( $prediction && $prediction['post_id'] == $expected_post_id ) {
@@ -457,20 +409,14 @@ class WPCAI_Naive_Bayes {
 
     /**
      * Get similar posts based on content similarity
-     *
-     * @param int $post_id Reference post ID
-     * @param int $limit Number of similar posts to return
-     * @return array Array of similar posts with similarity scores
      */
     public function get_similar_posts( $post_id, $limit = 5 ) {
         $reference_data = WPCAI_Database::get_training_data( $post_id );
-        
         if ( ! $reference_data ) {
             return array();
         }
 
         $reference_tokens = json_decode( $reference_data->tokens, true );
-        
         if ( empty( $reference_tokens ) ) {
             return array();
         }
@@ -484,13 +430,11 @@ class WPCAI_Naive_Bayes {
             }
 
             $tokens = json_decode( $data->tokens, true );
-            
             if ( empty( $tokens ) ) {
                 continue;
             }
 
             $similarity = WPCAI_Tokenizer::calculate_jaccard_similarity( $reference_tokens, $tokens );
-            
             if ( $similarity > 0 ) {
                 $similarities[] = array(
                     'post_id' => $data->post_id,
@@ -501,7 +445,6 @@ class WPCAI_Naive_Bayes {
             }
         }
 
-        // Sort by similarity (highest first)
         usort( $similarities, function( $a, $b ) {
             return $b['similarity'] <=> $a['similarity'];
         });
@@ -509,4 +452,3 @@ class WPCAI_Naive_Bayes {
         return array_slice( $similarities, 0, $limit );
     }
 }
-
