@@ -88,7 +88,7 @@ class WPCAI_Ajax {
             $naive_bayes = new WPCAI_Naive_Bayes();
             $result = $naive_bayes->predict( $question );
 
-            if ( $result  ) {
+            if ( $result  ) { // we have a problem here, the most answers have a too low confidence
                 // Log the interaction
                 WPCAI_Database::log_chat( array(
                     'user_question' => $question,

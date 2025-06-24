@@ -334,7 +334,7 @@
 
             // Add source information for bot messages
             if (type === 'bot' && metadata.source_title && metadata.source_url) {
-                const sourceLink = `<a href="${this.escapeHtml(metadata.source_url)}" target="_blank" rel="noopener">${this.escapeHtml(metadata.source_title)}</a>`;
+                const sourceLink = `<a href="${this.escapeHtml(metadata.source_url)}" rel="noopener">${this.escapeHtml(metadata.source_title)}</a>`;
                 formattedContent = formattedContent.replace(
                     new RegExp(`Source: ${this.escapeHtml(metadata.source_title)}`, 'g'),
                     `Source: ${sourceLink}`
