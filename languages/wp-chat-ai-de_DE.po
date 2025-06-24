@@ -1,0 +1,315 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Chat AI\n"
+"POT-Creation-Date: 2025-06-24 14:22+0200\n"
+"PO-Revision-Date: 2025-06-24 14:31+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.1.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: wp-chat-ai.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+
+#. Plugin Name of the plugin/theme
+#: admin/class-wpcai-admin.php:59 admin/class-wpcai-admin.php:60
+msgid "WP Chat AI"
+msgstr "WP Chat AI"
+
+#: admin/class-wpcai-admin.php:70 admin/class-wpcai-admin.php:71
+#: admin/class-wpcai-admin.php:148
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: admin/class-wpcai-admin.php:79 admin/class-wpcai-admin.php:80
+msgid "Training"
+msgstr "Schulung"
+
+#: admin/class-wpcai-admin.php:88 admin/class-wpcai-admin.php:89
+#: admin/class-wpcai-admin.php:328
+msgid "Chat Logs"
+msgstr "Chat-Protokolle"
+
+#: admin/class-wpcai-admin.php:137
+msgid "Training started..."
+msgstr "Die Ausbildung hat begonnen..."
+
+#: admin/class-wpcai-admin.php:138
+msgid "Training failed. Please try again."
+msgstr "Training fehlgeschlagen. Bitte versuchen Sie es erneut."
+
+#: admin/class-wpcai-admin.php:139
+msgid "Could not get training status."
+msgstr "Konnte keinen Ausbildungsstatus erhalten."
+
+#: admin/class-wpcai-admin.php:163 public/class-wpcai-public.php:89
+#: public/class-wpcai-public.php:106 wp-chat-ai.php:131
+msgid "Ask a Question"
+msgstr "Stelle eine Frage"
+
+#: admin/class-wpcai-admin.php:164 public/class-wpcai-public.php:90
+#: public/class-wpcai-public.php:107
+msgid "Type your question here..."
+msgstr "Geben Sie hier Ihre Frage ein..."
+
+#: admin/class-wpcai-admin.php:165 public/class-wpcai-public.php:85
+#: public/class-wpcai-public.php:91 public/class-wpcai-public.php:108
+msgid "Send"
+msgstr "Senden"
+
+#: admin/class-wpcai-admin.php:178
+msgid "Enable Chat"
+msgstr "Chat freigeben"
+
+#: admin/class-wpcai-admin.php:182
+msgid "Enable the chat interface on the frontend"
+msgstr "Aktivieren Sie die Chat-Schnittstelle auf dem Frontend"
+
+#: admin/class-wpcai-admin.php:188
+msgid "Chat Position"
+msgstr "Chat-Position"
+
+#: admin/class-wpcai-admin.php:191
+msgid "Bottom Right"
+msgstr "Unten rechts"
+
+#: admin/class-wpcai-admin.php:192
+msgid "Bottom Left"
+msgstr "Unten links"
+
+#: admin/class-wpcai-admin.php:193
+msgid "Top Right"
+msgstr "Oben rechts"
+
+#: admin/class-wpcai-admin.php:194
+msgid "Top Left"
+msgstr "Oben links"
+
+#: admin/class-wpcai-admin.php:200
+msgid "Chat Title"
+msgstr "Chat-Titel"
+
+#: admin/class-wpcai-admin.php:207
+msgid "Input Placeholder"
+msgstr "Platzhalter eingeben"
+
+#: admin/class-wpcai-admin.php:214
+msgid "Button Text"
+msgstr "Button Text"
+
+#: admin/class-wpcai-admin.php:221
+msgid "Confidence Threshold"
+msgstr "Konfidenzschwelle"
+
+#: admin/class-wpcai-admin.php:224
+msgid "Minimum confidence score required to show an answer (0.0 - 1.0)"
+msgstr ""
+"Mindestkonfidenzniveau, das erforderlich ist, um eine Antwort anzuzeigen "
+"(0,0 - 1,0)"
+
+#: admin/class-wpcai-admin.php:229
+msgid "Max Response Length"
+msgstr "Maximale Antwortlänge"
+
+#: admin/class-wpcai-admin.php:232
+msgid "Maximum number of characters in chat responses"
+msgstr "Maximale Anzahl von Zeichen in Chat-Antworten"
+
+#: admin/class-wpcai-admin.php:254
+msgid "Model Training"
+msgstr "Modell Ausbildung"
+
+#: admin/class-wpcai-admin.php:257
+msgid "Training Status"
+msgstr "Ausbildungsstand"
+
+#: admin/class-wpcai-admin.php:261
+msgid "Current Status"
+msgstr "Aktueller Status"
+
+#: admin/class-wpcai-admin.php:270
+msgid "Total Posts"
+msgstr "Summe Beiträge"
+
+#: admin/class-wpcai-admin.php:275
+msgid "Trained Posts"
+msgstr "Ausgebildete Stellen"
+
+#: admin/class-wpcai-admin.php:280
+msgid "Progress"
+msgstr "Fortschritt"
+
+#: admin/class-wpcai-admin.php:291
+msgid "Last Training"
+msgstr "Letzte Ausbildung"
+
+#: admin/class-wpcai-admin.php:299
+msgid "Start Training"
+msgstr "Ausbildung beginnen"
+
+#: admin/class-wpcai-admin.php:303
+msgid "Refresh Status"
+msgstr "Status aktualisieren"
+
+#: admin/class-wpcai-admin.php:311
+msgid "About Training"
+msgstr "Über Ausbildung"
+
+#: admin/class-wpcai-admin.php:312
+msgid ""
+"The training process analyzes all your published posts and creates a machine "
+"learning model that can answer questions based on your content."
+msgstr ""
+"Der Trainingsprozess analysiert alle von Ihnen veröffentlichten Beiträge und "
+"erstellt ein maschinelles Lernmodell, das auf der Grundlage Ihrer Inhalte "
+"Fragen beantworten kann."
+
+#: admin/class-wpcai-admin.php:313
+msgid ""
+"Training may take several minutes depending on the number of posts. The "
+"process runs in the background, so you can continue using your site normally."
+msgstr ""
+"Das Training kann je nach Anzahl der Beiträge einige Minuten dauern. Der "
+"Prozess läuft im Hintergrund, so dass Sie Ihre Website normal weiter nutzen "
+"können."
+
+#: admin/class-wpcai-admin.php:314
+msgid ""
+"You should retrain the model whenever you publish new content or make "
+"significant changes to existing posts."
+msgstr ""
+"Sie sollten das Modell immer dann neu trainieren, wenn Sie neue Inhalte "
+"veröffentlichen oder wesentliche Änderungen an bestehenden Beiträgen "
+"vornehmen."
+
+#: admin/class-wpcai-admin.php:331
+msgid "No chat interactions yet."
+msgstr "Noch keine Chat-Interaktionen."
+
+#: admin/class-wpcai-admin.php:336
+msgid "Date"
+msgstr "Datum"
+
+#: admin/class-wpcai-admin.php:337
+msgid "Question"
+msgstr "Frage"
+
+#: admin/class-wpcai-admin.php:338
+msgid "Matched Post"
+msgstr "Abgestimmter Beitrag"
+
+#: admin/class-wpcai-admin.php:339
+msgid "Confidence"
+msgstr "Selbstvertrauen"
+
+#: admin/class-wpcai-admin.php:340
+msgid "Response"
+msgstr "Antwort"
+
+#: admin/class-wpcai-admin.php:354
+msgid "No match"
+msgstr "keine Übereinstimmung gefunden"
+
+#: admin/class-wpcai-admin.php:373 includes/class-wpcai-ajax.php:66
+#: includes/class-wpcai-ajax.php:134 includes/class-wpcai-ajax.php:151
+msgid "Security check failed"
+msgstr "Sicherheitsprüfung fehlgeschlagen"
+
+#: admin/class-wpcai-admin.php:384
+msgid "Settings saved successfully."
+msgstr "Einstellungen erfolgreich gespeichert."
+
+#: includes/class-wpcai-ajax.php:73 public/class-wpcai-public.php:82
+msgid "Please enter a question."
+msgstr "Bitte geben Sie eine Frage ein."
+
+#: includes/class-wpcai-ajax.php:82
+msgid "The AI model is still being trained. Please try again in a few minutes."
+msgstr ""
+"Das KI-Modell wird noch trainiert. Bitte versuchen Sie es in ein paar "
+"Minuten erneut."
+
+#: includes/class-wpcai-ajax.php:110
+msgid ""
+"I'm sorry, I couldn't find a relevant answer to your question. Please try "
+"rephrasing your question or contact us directly."
+msgstr ""
+"Es tut mir leid, ich konnte keine passende Antwort auf Ihre Frage finden. "
+"Bitte versuchen Sie, Ihre Frage neu zu formulieren oder kontaktieren Sie uns "
+"direkt."
+
+#: includes/class-wpcai-ajax.php:118
+msgid ""
+"An error occurred while processing your question. Please try again later."
+msgstr ""
+"Bei der Bearbeitung Ihrer Frage ist ein Fehler aufgetreten. Bitte versuchen "
+"Sie es später noch einmal."
+
+#: includes/class-wpcai-ajax.php:129
+msgid "You do not have permission to perform this action."
+msgstr "Du hast keine Berechtigung, um diese Aktion durchzuführen."
+
+#: includes/class-wpcai-ajax.php:141
+msgid "Model training has been scheduled and will begin shortly."
+msgstr "Die Modellschulung ist geplant und wird in Kürze beginnen."
+
+#: includes/class-wpcai-naive-bayes.php:315
+#, php-format
+msgid "Source: %s"
+msgstr "Quelle: %s"
+
+#: public/class-wpcai-public.php:80
+msgid "Thinking..."
+msgstr "Ich denke..."
+
+#: public/class-wpcai-public.php:81
+msgid "Sorry, something went wrong. Please try again."
+msgstr ""
+"Es tut uns leid, es ist etwas schief gelaufen. Bitte versuchen Sie es erneut."
+
+#: public/class-wpcai-public.php:83 public/class-wpcai-public.php:131
+msgid "Close"
+msgstr "Schließen"
+
+#: public/class-wpcai-public.php:84 public/class-wpcai-public.php:126
+msgid "Minimize"
+msgstr "Minimieren"
+
+#: public/class-wpcai-public.php:143
+msgid ""
+"Hello! I can help answer questions about our content. What would you like to "
+"know?"
+msgstr ""
+"Hallo! Ich kann Ihnen Fragen zu unseren Inhalten beantworten. Was würden Sie "
+"gerne wissen?"
+
+#. Plugin URI of the plugin/theme
+msgid "https://example.com/wp-chat-ai"
+msgstr "https://example.com/wp-chat-ai"
+
+#. Description of the plugin/theme
+msgid ""
+"A WordPress plugin that provides an AI-powered chat interface using Naive "
+"Bayes algorithm to answer questions based on post content."
+msgstr ""
+"Ein WordPress-Plugin, das eine KI-gestützte Chat-Schnittstelle bietet, die "
+"den Naive-Bayes-Algorithmus verwendet, um Fragen auf der Grundlage des "
+"Inhalts von Beiträgen zu beantworten."
+
+#. Author of the plugin/theme
+msgid "Manus AI"
+msgstr "Manus AI"
+
+#. Author URI of the plugin/theme
+msgid "https://example.com"
+msgstr "https://example.com"
